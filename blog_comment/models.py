@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Comment(models.Model):
@@ -6,5 +7,5 @@ class Comment(models.Model):
     author = models.CharField(max_length=128)
     email = models.EmailField()
     content = models.CharField(max_length=1024 * 1024)
-    time = models.DateField(auto_now=True)
+    time = models.DateTimeField(default=timezone.now)
     is_reviewed = models.BooleanField(default=False)
