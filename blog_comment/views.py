@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from django.forms.models import model_to_dict
 
-from blog_comment.models import Comment
+from .models import Comment
 
 SESSION_AUTH = "auth"
 CONFIG_PASSWORD = "123"

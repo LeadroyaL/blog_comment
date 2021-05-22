@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 
-from blog_comment import views
+from . import views
 
 urlpatterns = [
     path('get/<int:post_id>', views.get),
