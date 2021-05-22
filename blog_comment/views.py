@@ -14,7 +14,7 @@ CONFIG_PASSWORD = "123"
 def get(request: HttpRequest, post_id: int) -> HttpResponse:
     ret = []
     for data in Comment.objects.filter(post_ID=post_id, is_reviewed=True):
-        d = model_to_dict(data, fields=['author', 'email', 'content', ])
+        d = model_to_dict(data, fields=['author', 'content', ])
         d['time'] = data.time.strftime('%Y-%m-%d %H:%M:%S')
         ret.append(d)
     return JsonResponse(ret, safe=False, json_dumps_params={"ensure_ascii": False})
