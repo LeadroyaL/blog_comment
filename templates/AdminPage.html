@@ -17,7 +17,7 @@
     </tr>
     {% for record in records %}
         <tr>
-            <td><a href="/accept/{{ record.id }}">accept</a> / <a href="/reject/{{ record.id }}">reject</a></td>
+            <td><a href="accept/{{ record.id }}">accept</a> / <a href="reject/{{ record.id }}">reject</a></td>
             <td> {{ record.post_ID }} </td>
             <td> {{ record.author }} </td>
             <td> {{ record.email }} </td>
