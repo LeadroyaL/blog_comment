@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>admin</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>REVIEW</th>
+        <th>post_ID</th>
+        <th>author</th>
+        <th>email</th>
+        <th>time</th>
+        <th>content</th>
+    </tr>
+    {% for record in records %}
+        <tr>
+            <td><a href="/accept/{{ record.id }}">accept</a> / <a href="/reject/{{ record.id }}">reject</a></td>
+            <td> {{ record.post_ID }} </td>
+            <td> {{ record.author }} </td>
+            <td> {{ record.email }} </td>
+            <td> {{ record.time }} </td>
+            <td> {{ record.content }} </td>
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
