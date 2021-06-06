@@ -1,5 +1,7 @@
 import json
 
+from django.core import validators
+from django.core.exceptions import ValidationError
 from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
@@ -27,7 +29,11 @@ def put(request: HttpRequest, post_id: int) -> HttpResponse:
         author = str(data['author'])
         email = str(data['email'])
         content = str(data['content'])
-        is_reviewed = Comment.objects.filter(email=email, is_reviewed=True).exists()
+        try:
+            validators.validate_email(email)
+            is_reviewed = Comment.objects.filter(email=email, is_reviewed=True).exists()
+        except ValidationError:
+            is_reviewed = False
         Comment(post_ID=post_id,
                 author=author,
                 email=email,
