@@ -29,7 +29,7 @@ if SECRET_KEY == LOCAL_KEY:
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = '*'
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
