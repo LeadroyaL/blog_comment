@@ -1,4 +1,8 @@
+import hmac
 import json
+import os
+import threading
+from hashlib import sha256
 
 from django.core import validators
 from django.core.exceptions import ValidationError
@@ -11,6 +15,11 @@ from .models import Comment
 
 SESSION_AUTH = "auth"
 CONFIG_PASSWORD = "123"
+SECRET = b"xxx"
+
+
+def index(request: HttpRequest) -> HttpResponse:
+    return HttpResponse('Hello From Django')
 
 
 def get(request: HttpRequest, post_id: int) -> HttpResponse:
@@ -80,3 +89,19 @@ def admin(request: HttpRequest) -> HttpResponse:
     if not request.session.get(SESSION_AUTH):
         return render(request, "LoginPage.html")
     return render(request, "AdminPage.html", {"records": Comment.objects.filter(is_reviewed=False)})
+
+
+@require_POST
+def payload(request: HttpRequest):  # put application's code here
+    body = request.body
+    signature = hmac.new(SECRET, body, sha256).hexdigest()
+    if request.headers.get('X-Hub-Signature-256') != 'sha256=' + signature:
+        return HttpResponseBadRequest('Invalid signature')
+    if request.headers.get('X-GitHub-Event') != 'push':
+        return HttpResponseBadRequest('Not a push event')
+    j = json.loads(body.decode('utf-8'))
+    if 'ref' not in j or j['ref'] != 'refs/heads/master':
+        return HttpResponseBadRequest('Ignored')
+    else:
+        threading.Thread(target=lambda: os.system('sudo -u ubuntu /home/ubuntu/deploy.sh')).start()
+        return HttpResponse('Try to deploy.')

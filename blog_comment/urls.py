@@ -18,9 +18,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('/', views.index),
     path('get/<int:post_id>', views.get),
     path('put/<int:post_id>', views.put),
     path('admin/', views.admin),
     path('admin/accept/<int:comment_id>', views.accept),
     path('admin/reject/<int:comment_id>', views.reject),
+    path('payload', views.payload),
 ]
