@@ -1,7 +1,7 @@
 import hmac
 import json
 import os
-import threading
+import subprocess
 from hashlib import sha256
 
 from django.core import validators
@@ -103,5 +103,5 @@ def payload(request: HttpRequest):  # put application's code here
     if 'ref' not in j or j['ref'] != 'refs/heads/master':
         return HttpResponseBadRequest('Ignored')
     else:
-        threading.Thread(target=lambda: os.system('sudo -u ubuntu /home/ubuntu/deploy.sh')).start()
+        subprocess.Popen('sudo -u ubuntu /home/ubuntu/deploy.sh', shell=True)
         return HttpResponse('Try to deploy.')
